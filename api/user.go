@@ -57,6 +57,8 @@ func UserMe(c *gin.Context) {
 
 // UserLogout 用户登出
 func UserLogout(c *gin.Context) {
+	// c.SetCookie("user_id","",3600,"/","localhost",false,true)
+
 	s := sessions.Default(c)
 	s.Clear()
 	s.Save()

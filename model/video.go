@@ -16,6 +16,8 @@ type Video struct {
 	Info   string
 	URL    string
 	Avatar string
+	// 投稿人
+	UserId uint
 }
 
 // AvatarURL 封面地址
