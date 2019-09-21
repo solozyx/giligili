@@ -7,6 +7,9 @@ import (
 
 // UserRegisterService 管理用户注册服务
 type UserRegisterService struct {
+	// form 支持form表单 json 支持JSON参数
+	// required 必填
+	// min 最小长度,Go中按字符计算,中文表示min个汉字;不按字节计算
 	Nickname        string `form:"nickname" json:"nickname" binding:"required,min=2,max=30"`
 	UserName        string `form:"user_name" json:"user_name" binding:"required,min=5,max=30"`
 	Password        string `form:"password" json:"password" binding:"required,min=8,max=40"`
@@ -22,7 +25,9 @@ func (service *UserRegisterService) Valid() *serializer.Response {
 		}
 	}
 
+	// 昵称不能相同
 	count := 0
+	// select count(*) from users where nickname = ?
 	model.DB.Model(&model.User{}).Where("nickname = ?", service.Nickname).Count(&count)
 	if count > 0 {
 		return &serializer.Response{
@@ -31,6 +36,7 @@ func (service *UserRegisterService) Valid() *serializer.Response {
 		}
 	}
 
+	// 用户名不能相同
 	count = 0
 	model.DB.Model(&model.User{}).Where("user_name = ?", service.UserName).Count(&count)
 	if count > 0 {

@@ -15,6 +15,7 @@ func NewRouter() *gin.Engine {
 	// 中间件, 顺序不能改
 	r.Use(middleware.Session(os.Getenv("SESSION_SECRET")))
 	r.Use(middleware.Cors())
+	// 获取用户状态
 	r.Use(middleware.CurrentUser())
 
 	// 路由
@@ -30,19 +31,24 @@ func NewRouter() *gin.Engine {
 
 		// 需要登录保护的
 		authed := v1.Group("/")
+		// 登录检查中间件
 		authed.Use(middleware.AuthRequired())
 		{
+			// 通过中间件检查
 			// User Routing
 			authed.GET("user/me", api.UserMe)
 			authed.DELETE("user/logout", api.UserLogout)
+			authed.POST("videos", api.CreateVideo)
+			authed.PUT("video/:id", api.UpdateVideo)
+			authed.DELETE("video/:id", api.DeleteVideo)
 		}
 
 		// 视频操作
-		v1.POST("videos", api.CreateVideo)
+		// v1.POST("videos", api.CreateVideo)
 		v1.GET("video/:id", api.ShowVideo)
 		v1.GET("videos", api.ListVideo)
-		v1.PUT("video/:id", api.UpdateVideo)
-		v1.DELETE("video/:id", api.DeleteVideo)
+		// v1.PUT("video/:id", api.UpdateVideo)
+		// v1.DELETE("video/:id", api.DeleteVideo)
 		// 排行榜
 		v1.GET("rank/daily", api.DailyRank)
 		// 其他

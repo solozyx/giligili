@@ -14,7 +14,7 @@ type UserLoginService struct {
 // Login 用户登录函数
 func (service *UserLoginService) Login() (model.User, *serializer.Response) {
 	var user model.User
-
+	// select * form users user_name = ? ;
 	if err := model.DB.Where("user_name = ?", service.UserName).First(&user).Error; err != nil {
 		return user, &serializer.Response{
 			Status: 40001,

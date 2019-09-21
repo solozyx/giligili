@@ -12,7 +12,8 @@ type User struct {
 	PasswordDigest string
 	Nickname       string
 	Status         string
-	Avatar         string `gorm:"size:1000"`
+	// 头像
+	Avatar string `gorm:"size:1000"`
 }
 
 const (
@@ -20,7 +21,7 @@ const (
 	PassWordCost = 12
 	// Active 激活用户
 	Active string = "active"
-	// Inactive 未激活用户
+	// Inactive 未激活用户 短信验证 邮箱验证
 	Inactive string = "inactive"
 	// Suspend 被封禁用户
 	Suspend string = "suspend"

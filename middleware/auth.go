@@ -11,6 +11,9 @@ import (
 // CurrentUser 获取登录用户
 func CurrentUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		// uid,_ := c.Cookie("user_id")
+		// if uid != "" {
+
 		session := sessions.Default(c)
 		uid := session.Get("user_id")
 		if uid != nil {
